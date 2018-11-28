@@ -68,6 +68,10 @@ public class RunSpam {
 						"u2_eval_lab.tf"
 						);
 				break;
+			case 5:
+				thirdCategory();
+				break;
+
 			}
 
 		}while(op != 0);
@@ -259,6 +263,11 @@ public class RunSpam {
 		System.out.print("correct: "+correct/(classifsActual.size()*1.0));
 		System.out.print(" FP:"+fp);
 		System.out.println(" FN: "+fn);
+	}
+
+	private static void thirdCategory(){
+
+		System.out.println("This is our new option!");
 	}
 
 }
