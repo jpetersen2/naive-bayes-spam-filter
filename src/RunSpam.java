@@ -34,6 +34,7 @@ public class RunSpam {
 			System.out.println("2.Train with u0, EM with labeled_train  and u2, classify u2");
 			System.out.println("3.Table thresholds");
 			System.out.println("4.Table thresholds with EM");
+			System.out.println("5.Train with third category");
 			System.out.println("0.Exit");
 			op = scanner.nextInt();
 
