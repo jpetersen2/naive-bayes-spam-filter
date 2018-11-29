@@ -32,15 +32,23 @@ public class RunSpam {
 			System.out.println("******* Welcome to the great spam classifier :D *******");
 			System.out.println("1.Train with labeled_train, EM with u0 and u2, classify u2");
 			System.out.println("2.Train with u0, EM with labeled_train  and u2, classify u2");
-			System.out.println("3.Table thresholds");
-			System.out.println("4.Table thresholds with EM");
-			System.out.println("5.Train with third category");
-			System.out.println("6.Train with u1, EM with u0, u2, classify u0");
-			System.out.println("7.Train with u2, EM with u0, u1, classify u0");
-			System.out.println("8.Train with u0, EM with u1, u2, classify u1");
-			System.out.println("9.Train with u1, EM with u0, u2, classify u2");
-			System.out.println("10.Train with u2, EM with u0, u1, classify u1");
-			System.out.println("11.Train with u0, EM with u1, u2, classify u2");
+			System.out.println("3.Train with u1, EM with u0, u2, classify u0");
+			System.out.println("4.Train with u2, EM with u0, u1, classify u0");
+			System.out.println("5.Train with u0, EM with u1, u2, classify u1");
+			System.out.println("6.Train with u1, EM with u0, u2, classify u2");
+			System.out.println("7.Train with u2, EM with u0, u1, classify u1");
+			System.out.println("8.Train with u0, EM with u1, u2, classify u2");
+			System.out.println("9.Table thresholds");
+			System.out.println("10.Table thresholds with EM");
+			System.out.println("------ with 3 categories ------");
+			System.out.println("11.Train with labeled_train, EM with u0 and u2, classify u2");
+			System.out.println("12.Train with u0, EM with labeled_train  and u2, classify u2");
+			System.out.println("13.Train with u1, EM with u0, u2, classify u0");
+			System.out.println("14.Train with u2, EM with u0, u1, classify u0");
+			System.out.println("15.Train with u0, EM with u1, u2, classify u1");
+			System.out.println("16.Train with u1, EM with u0, u2, classify u2");
+			System.out.println("17.Train with u2, EM with u0, u1, classify u1");
+			System.out.println("18.Train with u0, EM with u1, u2, classify u2");
 			System.out.println("0.Exit");
 			op = scanner.nextInt();
 
@@ -64,73 +72,110 @@ public class RunSpam {
 						30.0,0);
 				break;
 			case 3:
-				tableThreshold("labeled_train.tf");
-				break;
-
-			case 4:
-				tableThresholdsEM("u0_eval_lab.tf",
-						"labeled_train.tf",
-						"u1_eval.tf",
-						"u2_eval_lab.tf"
-						);
-				break;
-			case 5:
-				thirdCategory("labeled_train.tf",
-						"u0_eval.tf",
-						"u1_eval.tf",
-						"u1_eval_lab.tf"
-						,30.0,0);
-				/*trainRunEMandClassify("u2_eval_lab.tf",
-						"labeled_train.tf",
-						"u1_eval.tf",
-						"u2_eval_lab.tf"
-						,30.0,0);
-						*/
-				break;
-			case 6:
 					trainRunEMandClassify("u1_eval_lab.tf",
 							"u0_eval.tf",
 							"u2_eval.tf",
 							"u0_eval_lab.tf"
 							,30.0,0);
 					break;
-			/*
-			System.out.println("7.Train with u2, EM with u0, u1, classify u0");
-			System.out.println("8.Train with u0, EM with u1, u2, classify u1");
-			System.out.println("9.Train with u1, EM with u0, u2, classify u2");
-			System.out.println("10.Train with u2, EM with u0, u1, classify u1");
-			System.out.println("11.Train with u0, EM with u1, u2, classify u2");
-			 */
-			case 7:
+			case 4:
 					trainRunEMandClassify("u2_eval_lab.tf",
 							"u0_eval.tf",
 							"u1_eval.tf",
 							"u0_eval_lab.tf"
 							,30.0,0);
 					break;
-			case 8:
+			case 5:
 					trainRunEMandClassify("u0_eval_lab.tf",
 							"u1_eval.tf",
 							"u2_eval.tf",
 							"u1_eval_lab.tf"
 							,30.0,0);
 					break;
-			case 9:
+			case 6:
 					trainRunEMandClassify("u1_eval_lab.tf",
 							"u0_eval.tf",
 							"u2_eval.tf",
 							"u2_eval_lab.tf"
 							,30.0,0);
 				break;
-			case 10:
+			case 7:
 					trainRunEMandClassify("u2_eval_lab.tf",
 							"u0_eval.tf",
 							"u1_eval.tf",
 							"u1_eval_lab.tf"
 							,30.0,0);
 					break;
-			case 11:
+			case 8:
 					trainRunEMandClassify("u0_eval_lab.tf",
+							"u1_eval.tf",
+							"u2_eval.tf",
+							"u2_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 9:
+					tableThreshold("labeled_train.tf");
+					break;
+
+			case 10:
+					tableThresholdsEM("u0_eval_lab.tf",
+							"labeled_train.tf",
+							"u1_eval.tf",
+							"u2_eval_lab.tf"
+					);
+					break;
+			//// third category
+			case 11:
+				thirdCategory("labeled_train.tf",
+							"u0_eval.tf",
+							"u1_eval.tf",
+							"u2_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 12:
+				thirdCategory("u0_eval_lab.tf",
+							"labeled_train.tf",
+							"u1_eval.tf",
+							"u2_eval_lab.tf",
+							30.0,0);
+					break;
+			case 13:
+				thirdCategory("u1_eval_lab.tf",
+							"u0_eval.tf",
+							"u2_eval.tf",
+							"u0_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 14:
+				thirdCategory("u2_eval_lab.tf",
+							"u0_eval.tf",
+							"u1_eval.tf",
+							"u0_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 15:
+				thirdCategory("u0_eval_lab.tf",
+							"u1_eval.tf",
+							"u2_eval.tf",
+							"u1_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 16:
+				thirdCategory("u1_eval_lab.tf",
+							"u0_eval.tf",
+							"u2_eval.tf",
+							"u2_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 17:
+				thirdCategory("u2_eval_lab.tf",
+							"u0_eval.tf",
+							"u1_eval.tf",
+							"u1_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 18:
+				thirdCategory("u0_eval_lab.tf",
 							"u1_eval.tf",
 							"u2_eval.tf",
 							"u2_eval_lab.tf"
