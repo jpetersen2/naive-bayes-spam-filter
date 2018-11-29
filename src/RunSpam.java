@@ -35,6 +35,12 @@ public class RunSpam {
 			System.out.println("3.Table thresholds");
 			System.out.println("4.Table thresholds with EM");
 			System.out.println("5.Train with third category");
+			System.out.println("6.Train with u1, EM with u0, u2, classify u0");
+			System.out.println("7.Train with u2, EM with u0, u1, classify u0");
+			System.out.println("8.Train with u0, EM with u1, u2, classify u1");
+			System.out.println("9.Train with u1, EM with u0, u2, classify u2");
+			System.out.println("10.Train with u2, EM with u0, u1, classify u1");
+			System.out.println("11.Train with u0, EM with u1, u2, classify u2");
 			System.out.println("0.Exit");
 			op = scanner.nextInt();
 
@@ -69,8 +75,67 @@ public class RunSpam {
 						);
 				break;
 			case 5:
-				thirdCategory();
+				thirdCategory("labeled_train.tf",
+						"u0_eval.tf",
+						"u1_eval.tf",
+						"u1_eval_lab.tf"
+						,30.0,0);
+				/*trainRunEMandClassify("u2_eval_lab.tf",
+						"labeled_train.tf",
+						"u1_eval.tf",
+						"u2_eval_lab.tf"
+						,30.0,0);
+						*/
 				break;
+			case 6:
+					trainRunEMandClassify("u1_eval_lab.tf",
+							"u0_eval.tf",
+							"u2_eval.tf",
+							"u0_eval_lab.tf"
+							,30.0,0);
+					break;
+			/*
+			System.out.println("7.Train with u2, EM with u0, u1, classify u0");
+			System.out.println("8.Train with u0, EM with u1, u2, classify u1");
+			System.out.println("9.Train with u1, EM with u0, u2, classify u2");
+			System.out.println("10.Train with u2, EM with u0, u1, classify u1");
+			System.out.println("11.Train with u0, EM with u1, u2, classify u2");
+			 */
+			case 7:
+					trainRunEMandClassify("u2_eval_lab.tf",
+							"u0_eval.tf",
+							"u1_eval.tf",
+							"u0_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 8:
+					trainRunEMandClassify("u0_eval_lab.tf",
+							"u1_eval.tf",
+							"u2_eval.tf",
+							"u1_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 9:
+					trainRunEMandClassify("u1_eval_lab.tf",
+							"u0_eval.tf",
+							"u2_eval.tf",
+							"u2_eval_lab.tf"
+							,30.0,0);
+				break;
+			case 10:
+					trainRunEMandClassify("u2_eval_lab.tf",
+							"u0_eval.tf",
+							"u1_eval.tf",
+							"u1_eval_lab.tf"
+							,30.0,0);
+					break;
+			case 11:
+					trainRunEMandClassify("u0_eval_lab.tf",
+							"u1_eval.tf",
+							"u2_eval.tf",
+							"u2_eval_lab.tf"
+							,30.0,0);
+					break;
 
 			}
 
@@ -113,9 +178,6 @@ public class RunSpam {
 		EmailDataset predict = actual.clone();
 		nb.classifyAll(predict);
 		printFPFN(actual.getClassifications(), predict.getClassifications());
-
-
-
 	}
 
 	
@@ -265,9 +327,33 @@ public class RunSpam {
 		System.out.println(" FN: "+fn);
 	}
 
-	private static void thirdCategory(){
+	private static void thirdCategory(String file1Train,
+									  String file2EM,
+									  String file3EM,
+									  String file4Class,
+									  double threshold,
+									  int significTokens)
+			throws FileNotFoundException{
+		//create the basic naive bayes model
+		NaiveBayes nb = new NaiveBayes(file1Train, threshold, significTokens);
+		//refine the model
+		nb.algoritmoEM(file2EM, file3EM, true);
+
+		//classify the last file
+		TFReader reader = new TFReader(file4Class);
+
+		//check the correctness
+		EmailDataset actual = reader.read();
+		EmailDataset predict = actual.clone();
+		nb.classifyAllThree(predict);
+		printFPFN(actual.getClassifications(), predict.getClassifications());
+	}
+
+			/*
+	){
 
 		System.out.println("This is our new option!");
 	}
+	*/
 
 }

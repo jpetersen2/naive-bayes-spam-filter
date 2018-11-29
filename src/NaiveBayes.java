@@ -217,8 +217,8 @@ public class NaiveBayes {
 	 * Method that returns the EmailDataset filtered 
 	 * considering only the most significative tokens
 	 * 
-	 * @param t threashold for # tokens
-	 * @param trainData current taindata
+	 * //@param t threashold for # tokens
+	 * //@param trainData current taindata
 	 * @return
 	 */
 	private void filterSignificativeTokens(int threshold){
@@ -296,7 +296,7 @@ public class NaiveBayes {
 	 * Method used to classify a dataset of messages received
 	 * 
 	 * @param data EmailDataset - the data to be classified
-	 * @param threshold Integer - the threshold of classification
+	 * //@param threshold Integer - the threshold of classification
 	 * 
 	 * The dataset passed is modified adding the classifications to the data
 	 */
@@ -306,13 +306,27 @@ public class NaiveBayes {
 		}
 	}
 
+	/**
+	 * Method used to classify a dataset of messages received
+	 *
+	 * @param data EmailDataset - the data to be classified
+	 * //@param threshold Integer - the threshold of classification
+	 *
+	 * The dataset passed is modified adding the classifications to the data
+	 */
+	public void classifyAllThree(EmailDataset data){
+		for(EmailMessage m:data){
+			classifyThree(m, this.threshold);
+		}
+	}
+
 
 	/**
 	 * Get the overall probability of a class to ocurr in all the dataset
 	 * 
 	 * @param c String class to be considered ("spam" / "ham")
 	 * 
-	 * @param dados 
+	 * //@param dados
 	 * @return
 	 */
 	private double getClassProb(String c){
@@ -417,6 +431,44 @@ public class NaiveBayes {
 			classification = 1;
 		else
 			classification = -1;
+
+		//System.out.println("Classification: "+ classification);
+
+		m.classify(classification);
+		return classification;
+	}
+
+
+	/**
+	 * Method that sets the classification value of the message
+	 * with three category's in mind
+	 *
+	 * @param m - EmailMessage message to be classified
+	 * @param threshold - classification threshold
+	 * @return the classification given (1, -1, 0)
+	 */
+	public int classifyThree(EmailMessage m, double threshold){
+
+		Double result =  (Double) Math.log10(spamProb / (hamProb*1.0));
+
+
+		for(Integer token: m){
+			if(spamProbTable.containsKey(token)){
+				result += Math.log10(spamProbTable.get(token) / (hamProbTable.get(token)*1.0));
+			}else{//safegard for unseen tokens
+				result+=  Math.log10((getTokenProb(token, "spam")/(getTokenProb(token, "ham")*1.0)));
+			}
+		}
+
+
+		int classification = 0;
+
+		if((result-15) >=  Math.log10(threshold))
+			classification = 1;
+		else if((result+15) <= Math.log10(threshold))
+			classification = -1;
+		else
+			classification = 0;
 
 		//System.out.println("Classification: "+ classification);
 
