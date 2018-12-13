@@ -40,7 +40,7 @@ public class RunSpam {
 			System.out.println("8.Train with u0, EM with u1, u2, classify u2");
 			System.out.println("9.Table thresholds");
 			System.out.println("10.Table thresholds with EM");
-			System.out.println("------ with 3 categories ------");
+			System.out.println("------ with new threshold------");
 			System.out.println("11.Train with labeled_train, EM with u0 and u2, classify u2");
 			System.out.println("12.Train with u0, EM with labeled_train  and u2, classify u2");
 			System.out.println("13.Train with u1, EM with u0, u2, classify u0");
@@ -49,138 +49,181 @@ public class RunSpam {
 			System.out.println("16.Train with u1, EM with u0, u2, classify u2");
 			System.out.println("17.Train with u2, EM with u0, u1, classify u1");
 			System.out.println("18.Train with u0, EM with u1, u2, classify u2");
+			System.out.println("---------New Trianing Data-------");
+			System.out.println("21.Train with enron, EM with N, P, classify neg_spam");
+			System.out.println("22.Train with enron, EM with N, P, classify neg_ham");
+			System.out.println("-------New Data w/ new threshold-------");
+			System.out.println("31.Train with enron, EM with N, P, classify neg_spam");
+			System.out.println("32.Train with enron, EM with N, P, classify neg_ham");
 			System.out.println("0.Exit");
 			op = scanner.nextInt();
 
 
-			switch(op){
-			case 0:
-				System.out.println("Bye!!");
-				break;
-			case 1:
-				trainRunEMandClassify("labeled_train.tf",
-						"u0_eval.tf",
-						"u1_eval.tf",
-						"u2_eval_lab.tf"
-						,30.0,0);
-				break;
-			case 2:
-				trainRunEMandClassify("u0_eval_lab.tf",
-						"labeled_train.tf",
-						"u1_eval.tf",
-						"u2_eval_lab.tf",
-						30.0,0);
-				break;
-			case 3:
+			switch(op) {
+				case 0:
+					System.out.println("Bye!!");
+					break;
+				case 1:
+					trainRunEMandClassify("labeled_train.tf",
+							"u0_eval.tf",
+							"u1_eval.tf",
+							"u2_eval_lab.tf"
+							, 30.0, 0);
+					break;
+				case 2:
+					trainRunEMandClassify("u0_eval_lab.tf",
+							"labeled_train.tf",
+							"u1_eval.tf",
+							"u2_eval_lab.tf",
+							30.0, 0);
+					break;
+				case 3:
 					trainRunEMandClassify("u1_eval_lab.tf",
 							"u0_eval.tf",
 							"u2_eval.tf",
 							"u0_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 4:
+				case 4:
 					trainRunEMandClassify("u2_eval_lab.tf",
 							"u0_eval.tf",
 							"u1_eval.tf",
 							"u0_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 5:
+				case 5:
 					trainRunEMandClassify("u0_eval_lab.tf",
 							"u1_eval.tf",
 							"u2_eval.tf",
 							"u1_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 6:
+				case 6:
 					trainRunEMandClassify("u1_eval_lab.tf",
 							"u0_eval.tf",
 							"u2_eval.tf",
 							"u2_eval_lab.tf"
-							,30.0,0);
-				break;
-			case 7:
+							, 30.0, 0);
+					break;
+				case 7:
 					trainRunEMandClassify("u2_eval_lab.tf",
 							"u0_eval.tf",
 							"u1_eval.tf",
 							"u1_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 8:
+				case 8:
 					trainRunEMandClassify("u0_eval_lab.tf",
 							"u1_eval.tf",
 							"u2_eval.tf",
 							"u2_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 9:
+				case 9:
 					tableThreshold("labeled_train.tf");
 					break;
 
-			case 10:
+				case 10:
 					tableThresholdsEM("u0_eval_lab.tf",
 							"labeled_train.tf",
 							"u1_eval.tf",
 							"u2_eval_lab.tf"
 					);
 					break;
-			//// third category
-			case 11:
-				thirdCategory("labeled_train.tf",
+				//// third category
+				case 11:
+					thirdCategory("labeled_train.tf",
 							"u0_eval.tf",
 							"u1_eval.tf",
 							"u2_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 12:
-				thirdCategory("u0_eval_lab.tf",
+				case 12:
+					thirdCategory("u0_eval_lab.tf",
 							"labeled_train.tf",
 							"u1_eval.tf",
 							"u2_eval_lab.tf",
-							30.0,0);
+							30.0, 0);
 					break;
-			case 13:
-				thirdCategory("u1_eval_lab.tf",
+				case 13:
+					thirdCategory("u1_eval_lab.tf",
 							"u0_eval.tf",
 							"u2_eval.tf",
 							"u0_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 14:
-				thirdCategory("u2_eval_lab.tf",
+				case 14:
+					thirdCategory("u2_eval_lab.tf",
 							"u0_eval.tf",
 							"u1_eval.tf",
 							"u0_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 15:
-				thirdCategory("u0_eval_lab.tf",
+				case 15:
+					thirdCategory("u0_eval_lab.tf",
 							"u1_eval.tf",
 							"u2_eval.tf",
 							"u1_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 16:
-				thirdCategory("u1_eval_lab.tf",
+				case 16:
+					thirdCategory("u1_eval_lab.tf",
 							"u0_eval.tf",
 							"u2_eval.tf",
 							"u2_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 17:
-				thirdCategory("u2_eval_lab.tf",
+				case 17:
+					thirdCategory("u2_eval_lab.tf",
 							"u0_eval.tf",
 							"u1_eval.tf",
 							"u1_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
-			case 18:
-				thirdCategory("u0_eval_lab.tf",
+				case 18:
+					thirdCategory("u0_eval_lab.tf",
 							"u1_eval.tf",
 							"u2_eval.tf",
 							"u2_eval_lab.tf"
-							,30.0,0);
+							, 30.0, 0);
 					break;
+
+
+				/////new data
+				case 21:
+					trainRunEMandClassify("enron_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"neg_spam_lab.tf"
+							, 30.0, 0);
+					break;
+
+				case 22:
+					trainRunEMandClassify("enron_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"neg_ham_lab.tf"
+							, 30.0, 0);
+					break;
+
+				/////new data third category
+
+				case 31:
+					thirdCategory("enron_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"neg_spam_lab.tf"
+							, 30.0, 0);
+					break;
+
+				case 32:
+					thirdCategory("enron_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"neg_ham_lab.tf"
+							, 30.0, 0);
+					break;
+
 
 			}
 
@@ -382,7 +425,7 @@ public class RunSpam {
 		//create the basic naive bayes model
 		NaiveBayes nb = new NaiveBayes(file1Train, threshold, significTokens);
 		//refine the model
-		nb.algoritmoEM(file2EM, file3EM, true);
+		nb.algoritmoEMThree(file2EM, file3EM, true);
 
 		//classify the last file
 		TFReader reader = new TFReader(file4Class);

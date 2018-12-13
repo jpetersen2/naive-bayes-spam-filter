@@ -463,9 +463,9 @@ public class NaiveBayes {
 
 		int classification = 0;
 
-		if((result-15) >=  Math.log10(threshold))
+		if((result-30) >=  Math.log10(threshold))
 			classification = 1;
-		else if((result+15) <= Math.log10(threshold))
+		else if((result+30) <= Math.log10(threshold))
 			classification = -1;
 		else
 			classification = 0;
@@ -474,6 +474,87 @@ public class NaiveBayes {
 
 		m.classify(classification);
 		return classification;
+	}
+
+
+
+	/**
+	 * Runs the EM algorithm on the current model
+	 *
+	 * @param filename1 String filename of one file to be used to support EM algoritm
+	 * @param filename2 String filename of one file to be used to support EM algoritm
+	 *
+	 * When running, this method will supply some feedback in the default output
+	 *
+	 * @throws FileNotFoundException
+	 */
+	public void algoritmoEMThree(String filename1, String filename2, Boolean feedback)throws FileNotFoundException{
+		if(feedback)
+			System.out.println("initializing the EM algorithm");
+		TFReader rf1 = new TFReader(filename1);
+		TFReader rf2 = new TFReader(filename2);
+
+		//read 2 files
+		EmailDataset dataset1 = rf1.read();
+		EmailDataset dataset2 = rf2.read();
+
+		if(feedback)
+			System.out.println("merging the files with no labels");
+		//merge data
+		EmailDataset datasetMerged = new EmailDataset();
+		datasetMerged.merge(dataset1);
+		datasetMerged.merge(dataset2);
+		if(feedback)
+			System.out.println("done new set ready for classification");
+
+		//save the current 2 datasets for later iteration
+		EmailDataset tempDataset = datasetMerged.clone();
+		EmailDataset tempTrain = trainData.clone();
+		if(feedback)
+			System.out.println("classifying the merged data");
+		//classify 2 sets
+		classifyAllThree(datasetMerged);
+		if(feedback)
+			System.out.println("extend the training dataset");
+		//merge to training data
+		datasetMerged.merge(trainData);
+
+
+		double previousLikehood= 0;
+		double currentLikehood = 0;
+		if(feedback)
+			System.out.println("creating the 1st extended model");
+		initModel(datasetMerged, sigTokens);
+		if(feedback)System.out.println("iterating...");
+		do{
+			previousLikehood = currentLikehood;
+
+
+			//some feedback
+			if(feedback)System.out.println("Current Model:");
+			if(feedback)System.out.println("num msg: "+trainData.getNumMessages());
+			if(feedback)System.out.println("num ham:"+trainData.getNumHam());
+			if(feedback)System.out.println("num spam:"+trainData.getNumSpam());
+
+
+			datasetMerged = tempDataset.clone();
+			if(feedback)System.out.println("classifying the data with the current model");
+			//classify
+			classifyAllThree(datasetMerged);
+			if(feedback)System.out.println("extend training dataset");
+			datasetMerged.merge(tempTrain);
+
+			if(feedback)System.out.println("create new model");
+			initModel(datasetMerged, sigTokens);//reset the model train data changes
+
+			if(feedback)System.out.println("calculating likehood");
+			currentLikehood=getLikehood();
+
+			if(feedback)System.out.println("likehood difference: "+ (currentLikehood - previousLikehood));
+
+		}while(Math.abs(currentLikehood - previousLikehood) > 0);
+
+
 	}
 
 	
