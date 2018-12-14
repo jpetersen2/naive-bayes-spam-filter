@@ -30,8 +30,8 @@ public class RunSpam {
 		Scanner scanner = new Scanner(System.in);
 		do{
 			System.out.println("******* Welcome to the great spam classifier :D *******");
-			System.out.println("1.Train with labeled_train, EM with u0 and u2, classify u2");
-			System.out.println("2.Train with u0, EM with labeled_train  and u2, classify u2");
+			System.out.println("1.Train with labeled_train, EM with u0 and u1, classify u2");
+			System.out.println("2.Train with u0, EM with labeled_train  and u1, classify u2");
 			System.out.println("3.Train with u1, EM with u0, u2, classify u0");
 			System.out.println("4.Train with u2, EM with u0, u1, classify u0");
 			System.out.println("5.Train with u0, EM with u1, u2, classify u1");
@@ -41,20 +41,29 @@ public class RunSpam {
 			System.out.println("9.Table thresholds");
 			System.out.println("10.Table thresholds with EM");
 			System.out.println("------ with new threshold------");
-			System.out.println("11.Train with labeled_train, EM with u0 and u2, classify u2");
-			System.out.println("12.Train with u0, EM with labeled_train  and u2, classify u2");
+			System.out.println("11.Train with labeled_train, EM with u0 and u1, classify u2");
+			System.out.println("12.Train with u0, EM with labeled_train  and u1, classify u2");
 			System.out.println("13.Train with u1, EM with u0, u2, classify u0");
 			System.out.println("14.Train with u2, EM with u0, u1, classify u0");
 			System.out.println("15.Train with u0, EM with u1, u2, classify u1");
 			System.out.println("16.Train with u1, EM with u0, u2, classify u2");
 			System.out.println("17.Train with u2, EM with u0, u1, classify u1");
 			System.out.println("18.Train with u0, EM with u1, u2, classify u2");
-			System.out.println("---------New Trianing Data-------");
+			System.out.println("---------New Training Data-------");
 			System.out.println("21.Train with enron, EM with N, P, classify neg_spam");
 			System.out.println("22.Train with enron, EM with N, P, classify neg_ham");
+			System.out.println("23.Train with enron, EM with N, P, classify pos_spam");
+			System.out.println("24.Train with dataset, EM with N, P, classify enron");
+			System.out.println("25.Train with neg_ham, EM with N, P, classify enron");
+			System.out.println("26.Train with pos_spam, EM with N, P, classify enron");
 			System.out.println("-------New Data w/ new threshold-------");
 			System.out.println("31.Train with enron, EM with N, P, classify neg_spam");
 			System.out.println("32.Train with enron, EM with N, P, classify neg_ham");
+			System.out.println("33.Train with enron, EM with N, P, classify pos_spam");
+			System.out.println("34.Train with dataset, EM with N, P, classify enron");
+			System.out.println("35.Train with neg_ham, EM with N, P, classify enron");
+			System.out.println("36.Train with pos_spam, EM with N, P, classify enron");
+
 			System.out.println("0.Exit");
 			op = scanner.nextInt();
 
@@ -206,6 +215,42 @@ public class RunSpam {
 							, 30.0, 0);
 					break;
 
+				//"23.Train with enron, EM with N, P, classify pos_spam"
+				//"24.Train with dataset, EM with N, P, classify enron"
+				//"25.Train with neg_ham, EM with N, P, classify enron"
+				//"26.Train with pos_spam, EM with N, P, classify enron"
+
+				case 23:
+					trainRunEMandClassify("enron_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"pos_spam_lab.tf"
+							, 30.0, 0);
+					break;
+
+				case 24:
+					trainRunEMandClassify("data_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"enron_lab.tf"
+							, 30.0, 0);
+					break;
+
+				case 25:
+					trainRunEMandClassify("neg_ham_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"enron_lab.tf"
+							, 30.0, 0);
+					break;
+				case 26:
+					trainRunEMandClassify("pos_spam_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"enron_lab.tf"
+							, 30.0, 0);
+					break;
+
 				/////new data third category
 
 				case 31:
@@ -221,6 +266,37 @@ public class RunSpam {
 							"N_ham.tf",
 							"P_spam.tf",
 							"neg_ham_lab.tf"
+							, 30.0, 0);
+					break;
+
+				case 33:
+					thirdCategory("enron_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"pos_spam_lab.tf"
+							, 30.0, 0);
+					break;
+
+				case 34:
+					thirdCategory("data_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"enron_lab.tf"
+							, 30.0, 0);
+					break;
+
+				case 35:
+					thirdCategory("neg_ham_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"enron_lab.tf"
+							, 30.0, 0);
+					break;
+				case 36:
+					thirdCategory("pos_spam_lab.tf",
+							"N_ham.tf",
+							"P_spam.tf",
+							"enron_lab.tf"
 							, 30.0, 0);
 					break;
 
